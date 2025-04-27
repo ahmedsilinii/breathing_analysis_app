@@ -1,3 +1,4 @@
+import 'package:breathing_analysis_app/constants/ui_constants.dart';
 import 'package:flutter/material.dart';
 
 class LoginView extends StatefulWidget {
@@ -10,6 +11,8 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return  Scaffold(
+      appBar: UIConstants.appBar(),
+    );
   }
 }
