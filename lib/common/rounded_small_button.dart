@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:breathing_analysis_app/theme/palette.dart';
 
 class RoundedSmallButton extends StatelessWidget {
   final VoidCallback onTap;
@@ -10,15 +11,22 @@ class RoundedSmallButton extends StatelessWidget {
     super.key,
     required this.onTap,
     required this.label,
-    required this.backgroundColor,
-    required this.textColor,
+    this.backgroundColor = Pallete.whiteColor,
+    this.textColor = Pallete.backgroundColor,
   });
 
   @override
   Widget build(BuildContext context) {
     return Chip(
-      label: Text(label, style: TextStyle(color: textColor)),
+      label: Text(
+        label,
+        style: TextStyle(color: textColor, fontSize: 16),
+      ),
       backgroundColor: backgroundColor,
+      labelPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30),
+      ),
     );
   }
 }
