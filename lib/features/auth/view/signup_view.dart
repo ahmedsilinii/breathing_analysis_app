@@ -1,22 +1,25 @@
 import 'package:breathing_analysis_app/common/common.dart';
 import 'package:breathing_analysis_app/constants/constants.dart';
+import 'package:breathing_analysis_app/features/auth/controller/auth_controller.dart';
 import 'package:breathing_analysis_app/features/auth/view/login_view.dart';
 import 'package:breathing_analysis_app/features/auth/widgets/auth_field.dart';
 import 'package:breathing_analysis_app/theme/theme.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SignupView extends StatefulWidget {
+class SignupView extends ConsumerStatefulWidget {
   static Route<dynamic> route() {
     return MaterialPageRoute(builder: (context) => const SignupView());
   }
+
   const SignupView({super.key});
 
   @override
-  State<SignupView> createState() => _SignupViewState();
+  ConsumerState<SignupView> createState() => _SignupViewState();
 }
 
-class _SignupViewState extends State<SignupView> {
+class _SignupViewState extends ConsumerState<SignupView> {
   final appbar = UIConstants.appBar();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -27,6 +30,16 @@ class _SignupViewState extends State<SignupView> {
     super.dispose();
     emailController.dispose();
     passwordController.dispose();
+  }
+
+  void onSignUp() {
+    ref
+        .read(authControllerProvider.notifier)
+        .singUp(
+          email: emailController.text,
+          password: passwordController.text,
+          context: context,
+        );
   }
 
   @override
@@ -44,33 +57,33 @@ class _SignupViewState extends State<SignupView> {
               const SizedBox(height: 40),
               Align(
                 alignment: Alignment.topRight,
-                child: RoundedSmallButton(onTap: () {}, label: 'Done'),
+                child: RoundedSmallButton(onTap: onSignUp, label: 'Done'),
               ),
               const SizedBox(height: 20),
-              RichText(text: TextSpan(
-                text: 'Already have an account?',
-                style: const TextStyle(
-                  color: Pallete.greyColor,
-                  fontSize: 16,
-                ),
-                children: [
-                  TextSpan(
-                    text: ' Login',
-                    style: const TextStyle(
-                      color: Pallete.blueColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        Navigator.push(
-                          context,
-                          LoginView.route(), 
-                        );
-                      },
+              RichText(
+                text: TextSpan(
+                  text: 'Already have an account?',
+                  style: const TextStyle(
+                    color: Pallete.greyColor,
+                    fontSize: 16,
                   ),
-                ],
-              )),
+                  children: [
+                    TextSpan(
+                      text: ' Login',
+                      style: const TextStyle(
+                        color: Pallete.blueColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      recognizer:
+                          TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.push(context, LoginView.route());
+                            },
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
