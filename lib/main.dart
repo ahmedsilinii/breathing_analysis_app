@@ -1,4 +1,3 @@
-import 'package:breathing_analysis_app/features/auth/view/login_view.dart';
 import 'package:breathing_analysis_app/features/auth/view/signup_view.dart';
 import 'package:breathing_analysis_app/theme/theme.dart';
 import 'package:flutter/material.dart';
