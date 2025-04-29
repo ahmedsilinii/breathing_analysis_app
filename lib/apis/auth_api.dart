@@ -14,12 +14,16 @@ final AuthAPIProvider = Provider((ref) {
 
 abstract class IAuthAPI {
   FutureEither<User> signUp({required String email, required String password});
+  FutureEither<Session> login({
+    required String email,
+    required String password,
+  });
 }
 
 class AuthAPI implements IAuthAPI {
   final Account _account;
   AuthAPI({required Account account}) : _account = account;
-  
+
   @override
   FutureEither<User> signUp({
     required String email,
@@ -40,4 +44,26 @@ class AuthAPI implements IAuthAPI {
       return left(Failure(message: e.toString(), stackTrace: stackTrace));
     }
   }
+
+  @override
+  FutureEither<Session> login({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final session  = await _account.createEmailPasswordSession(
+        email: email,
+        password: password,
+      );
+      return right(session);
+    } on AppwriteException catch (e, stackTrace) {
+      return left(
+        Failure(message: e.message ?? 'Unknown error', stackTrace: stackTrace),
+      );
+    } catch (e, stackTrace) {
+      return left(Failure(message: e.toString(), stackTrace: stackTrace));
+    }
+  }
+
+
 }
