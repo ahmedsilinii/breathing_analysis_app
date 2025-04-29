@@ -18,9 +18,8 @@ abstract class IAuthAPI {
 
 class AuthAPI implements IAuthAPI {
   final Account _account;
-
   AuthAPI({required Account account}) : _account = account;
-
+  
   @override
   FutureEither<User> signUp({
     required String email,
