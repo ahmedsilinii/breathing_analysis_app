@@ -1,6 +1,13 @@
 import 'package:breathing_analysis_app/apis/auth_api.dart';
+import 'package:breathing_analysis_app/core/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final authControllerProvider = StateNotifierProvider<AuthController, bool>((
+  ref,
+) {
+  return AuthController(authAPI: ref.watch(AuthAPIProvider));
+});
 
 class AuthController extends StateNotifier<bool> {
   final AuthAPI _authAPI;
@@ -14,6 +21,7 @@ class AuthController extends StateNotifier<bool> {
   }) async {
     state = true;
     final res = await _authAPI.signUp(email: email, password: password);
-    res.fold((l)=> null, (r)=> print(r.name));
+    // ignore: avoid_print
+    res.fold((l) => showSnackBar(context, l.message), (r) => print(r.name));
   }
 }
