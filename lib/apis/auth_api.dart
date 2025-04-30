@@ -2,6 +2,7 @@ import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:breathing_analysis_app/core/core.dart';
 import 'package:breathing_analysis_app/core/providers.dart';
+import 'package:breathing_analysis_app/features/auth/controller/auth_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -10,6 +11,10 @@ import 'package:fpdart/fpdart.dart';
 
 final authAPIProvider = Provider((ref) {
   return AuthAPI(account: ref.watch(appwriteAccountProvider));
+});
+
+final currentUserAccountProvider = FutureProvider((ref) async {
+  return ref.watch(authControllerProvider.notifier).currentUser();
 });
 
 abstract class IAuthAPI {
@@ -43,6 +48,7 @@ class AuthAPI implements IAuthAPI {
       // Handle error if needed
     }
   }
+
   @override
   Future<User?> currentUserAccount() async {
     try {

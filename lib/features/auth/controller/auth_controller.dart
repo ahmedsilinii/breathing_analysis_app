@@ -12,6 +12,10 @@ final authControllerProvider = StateNotifierProvider<AuthController, bool>((
   return AuthController(authAPI: ref.watch(authAPIProvider));
 });
 
+final currrentUserAccountProvider = FutureProvider((ref) async {
+  return ref.watch(authControllerProvider.notifier).currentUser();
+});
+
 class AuthController extends StateNotifier<bool> {
   final AuthAPI _authAPI;
   AuthController({required AuthAPI authAPI}) : _authAPI = authAPI, super(false);
