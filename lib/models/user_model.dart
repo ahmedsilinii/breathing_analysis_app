@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 
+@immutable
 class UserModel {
   final String email;
   final String name;
@@ -13,7 +15,7 @@ class UserModel {
   final String uid;
   final bool isDoctor;
 
-  UserModel({
+  const UserModel({
     required this.email,
     required this.name,
     required this.followers,
@@ -58,7 +60,6 @@ class UserModel {
       'profilePicture': profilePicture,
       'bannerPic': bannerPic,
       'bio': bio,
-      'uid': uid,
       'isDoctor': isDoctor,
     };
   }
@@ -72,14 +73,10 @@ class UserModel {
       profilePicture: map['profilePicture'] ?? '',
       bannerPic: map['bannerPic'] ?? '',
       bio: map['bio'] ?? '',
-      uid: map['uid'] ?? '',
+      uid: map['\$id'] ?? '',
       isDoctor: map['isDoctor'] ?? false,
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory UserModel.fromJson(String source) => UserModel.fromMap(json.decode(source));
 
   @override
   String toString() {
@@ -90,29 +87,29 @@ class UserModel {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     final listEquals = const DeepCollectionEquality().equals;
-  
+
     return other is UserModel &&
-      other.email == email &&
-      other.name == name &&
-      listEquals(other.followers, followers) &&
-      listEquals(other.following, following) &&
-      other.profilePicture == profilePicture &&
-      other.bannerPic == bannerPic &&
-      other.bio == bio &&
-      other.uid == uid &&
-      other.isDoctor == isDoctor;
+        other.email == email &&
+        other.name == name &&
+        listEquals(other.followers, followers) &&
+        listEquals(other.following, following) &&
+        other.profilePicture == profilePicture &&
+        other.bannerPic == bannerPic &&
+        other.bio == bio &&
+        other.uid == uid &&
+        other.isDoctor == isDoctor;
   }
 
   @override
   int get hashCode {
     return email.hashCode ^
-      name.hashCode ^
-      followers.hashCode ^
-      following.hashCode ^
-      profilePicture.hashCode ^
-      bannerPic.hashCode ^
-      bio.hashCode ^
-      uid.hashCode ^
-      isDoctor.hashCode;
+        name.hashCode ^
+        followers.hashCode ^
+        following.hashCode ^
+        profilePicture.hashCode ^
+        bannerPic.hashCode ^
+        bio.hashCode ^
+        uid.hashCode ^
+        isDoctor.hashCode;
   }
 }
