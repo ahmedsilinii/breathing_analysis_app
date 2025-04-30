@@ -8,7 +8,7 @@ import 'package:fpdart/fpdart.dart';
 // get user account --> Account from appwrite
 // want to access user related data --> model.Account (old version) --> User (new version)
 
-final AuthAPIProvider = Provider((ref) {
+final authAPIProvider = Provider((ref) {
   return AuthAPI(account: ref.watch(appwriteAccountProvider));
 });
 
@@ -25,6 +25,24 @@ class AuthAPI implements IAuthAPI {
   final Account _account;
   AuthAPI({required Account account}) : _account = account;
 
+  Future<Session?> getSession() async {
+    // Implement the logic to retrieve the current session
+    try {
+      // Example implementation
+      return await _account.getSession(sessionId: 'current');
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<void> deleteSession() async {
+    // Implement the logic to delete the current session
+    try {
+      await _account.deleteSession(sessionId: 'current');
+    } catch (e) {
+      // Handle error if needed
+    }
+  }
   @override
   Future<User?> currentUserAccount() async {
     try {
