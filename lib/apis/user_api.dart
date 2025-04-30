@@ -5,7 +5,7 @@ import 'package:breathing_analysis_app/models/user_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 
-final userAPIProvider = Provider<IUserAPI>((ref) {
+final userAPIProvider = Provider((ref) {
   return UserAPI(db: ref.watch(appwriteDatabaseProvider));
 });
 
