@@ -1,9 +1,13 @@
 import 'package:appwrite/appwrite.dart';
-import 'package:breathing_analysis_app/constants/appwrite_constants.dart';
-import 'package:breathing_analysis_app/core/failure.dart';
-import 'package:breathing_analysis_app/core/type_defs.dart';
+import 'package:breathing_analysis_app/constants/constants.dart';
+import 'package:breathing_analysis_app/core/core.dart';
 import 'package:breathing_analysis_app/models/user_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
+
+final userAPIProvider = Provider<IUserAPI>((ref) {
+  return UserAPI(db: ref.watch(appwriteDatabaseProvider));
+});
 
 abstract class IUserAPI {
   FutureEitherVoid saveUserData(UserModel userModel);
