@@ -18,11 +18,23 @@ abstract class IAuthAPI {
     required String email,
     required String password,
   });
+  Future<User?> currentUserAccount();
 }
 
 class AuthAPI implements IAuthAPI {
   final Account _account;
   AuthAPI({required Account account}) : _account = account;
+
+  @override
+  Future<User?> currentUserAccount() async {
+    try {
+      return await _account.get();
+    } on AppwriteException {
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
 
   @override
   FutureEither<User> signUp({
@@ -51,7 +63,7 @@ class AuthAPI implements IAuthAPI {
     required String password,
   }) async {
     try {
-      final session  = await _account.createEmailPasswordSession(
+      final session = await _account.createEmailPasswordSession(
         email: email,
         password: password,
       );
@@ -64,6 +76,4 @@ class AuthAPI implements IAuthAPI {
       return left(Failure(message: e.toString(), stackTrace: stackTrace));
     }
   }
-
-
 }
