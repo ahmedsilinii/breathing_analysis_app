@@ -1,15 +1,20 @@
 import 'package:appwrite/models.dart';
 import 'package:breathing_analysis_app/apis/auth_api.dart';
+import 'package:breathing_analysis_app/apis/user_api.dart';
 import 'package:breathing_analysis_app/core/utils.dart';
 import 'package:breathing_analysis_app/features/auth/view/login_view.dart';
 import 'package:breathing_analysis_app/features/home/view/home_view.dart';
+import 'package:breathing_analysis_app/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final authControllerProvider = StateNotifierProvider<AuthController, bool>((
   ref,
 ) {
-  return AuthController(authAPI: ref.watch(authAPIProvider));
+  return AuthController(
+    authAPI: ref.watch(authAPIProvider),
+    userAPI: ref.watch(userAPIProvider),
+  );
 });
 
 final currrentUserAccountProvider = FutureProvider((ref) async {
@@ -17,8 +22,12 @@ final currrentUserAccountProvider = FutureProvider((ref) async {
 });
 
 class AuthController extends StateNotifier<bool> {
+  final UserAPI _userAPI;
   final AuthAPI _authAPI;
-  AuthController({required AuthAPI authAPI}) : _authAPI = authAPI, super(false);
+  AuthController({required AuthAPI authAPI, required UserAPI userAPI})
+    : _authAPI = authAPI,
+      _userAPI = userAPI,
+      super(false);
   // state = isLoading
 
   Future<User?> currentUser() => _authAPI.currentUserAccount();
@@ -32,6 +41,18 @@ class AuthController extends StateNotifier<bool> {
     final res = await _authAPI.signUp(email: email, password: password);
     state = false;
     res.fold((l) => showSnackBar(context, l.message), (r) {
+      UserModel user = UserModel(
+        email: email,
+        name: email.split('@')[0],
+        followers: [],
+        following: [],
+        profilePicture: '',
+        bannerPic: '',
+        bio: '',
+        uid: r.$id,
+        isDoctor: false,
+      );
+      _userAPI.saveUserData(user);
       showSnackBar(context, 'Account created successfully! Please login.');
       Navigator.push(context, LoginView.route());
     });
@@ -56,16 +77,13 @@ class AuthController extends StateNotifier<bool> {
       final res = await _authAPI.login(email: email, password: password);
       state = false;
 
-      res.fold(
-        (l) => showSnackBar(context, l.message),
-        (r) {
-          showSnackBar(context, 'Login successful!');
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const HomeView()),
-          );
-        },
-      );
+      res.fold((l) => showSnackBar(context, l.message), (r) {
+        showSnackBar(context, 'Login successful!');
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const HomeView()),
+        );
+      });
     } catch (e) {
       state = false;
       showSnackBar(context, e.toString());

@@ -3,6 +3,7 @@ import 'package:appwrite/models.dart';
 import 'package:breathing_analysis_app/core/core.dart';
 import 'package:breathing_analysis_app/core/providers.dart';
 import 'package:breathing_analysis_app/features/auth/controller/auth_controller.dart';
+import 'package:breathing_analysis_app/models/user_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -100,4 +101,5 @@ class AuthAPI implements IAuthAPI {
       return left(Failure(message: e.toString(), stackTrace: stackTrace));
     }
   }
+
 }
