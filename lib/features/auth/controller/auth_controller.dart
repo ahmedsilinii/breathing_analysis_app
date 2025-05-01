@@ -40,7 +40,7 @@ class AuthController extends StateNotifier<bool> {
     state = true;
     final res = await _authAPI.signUp(email: email, password: password);
     state = false;
-    res.fold((l) => showSnackBar(context, l.message), (r) {
+    res.fold((l) => showSnackBar(context, l.message), (r) async {
       UserModel user = UserModel(
         email: email,
         name: email.split('@')[0],
@@ -52,9 +52,11 @@ class AuthController extends StateNotifier<bool> {
         uid: r.$id,
         isDoctor: false,
       );
-      _userAPI.saveUserData(user);
-      showSnackBar(context, 'Account created successfully! Please login.');
-      Navigator.push(context, LoginView.route());
+      final res2 = await _userAPI.saveUserData(user);
+      res2.fold((l) => showSnackBar(context, l.message), (r) {
+        showSnackBar(context, 'Account created successfully! Please login.');
+        Navigator.push(context, LoginView.route());
+      });
     });
   }
 
