@@ -25,11 +25,12 @@ class MyApp extends ConsumerWidget {
             data: (user) {
               if (user != null) {
                 return const HomeView();
-              } else {
-                return const SignupView();
               }
+              return const SignupView();
             },
-            error: (errorMessage, st) => ErrorPage(errorMessage: errorMessage.toString()),
+            error:
+                (errorMessage, st) =>
+                    ErrorPage(errorMessage: errorMessage.toString()),
             loading: () => const LoadingPage(),
           ),
     );
