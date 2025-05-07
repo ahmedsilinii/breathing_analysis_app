@@ -1,5 +1,4 @@
 import 'package:breathing_analysis_app/common/common.dart';
-import 'package:breathing_analysis_app/common/loading_page.dart';
 import 'package:breathing_analysis_app/constants/constants.dart';
 import 'package:breathing_analysis_app/features/auth/controller/auth_controller.dart';
 import 'package:breathing_analysis_app/features/auth/view/login_view.dart';
@@ -27,7 +26,6 @@ class _SignupViewState extends ConsumerState<SignupView> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     emailController.dispose();
     passwordController.dispose();
