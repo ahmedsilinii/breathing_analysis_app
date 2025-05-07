@@ -18,21 +18,21 @@ class _CreateDiagnosisScreenState extends ConsumerState<CreateDiagnosisScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            SvgPicture.asset(
-              AssetsConstants.breathingLogo,
-              // ignore: deprecated_member_use
-              color: Palette.blueColor,
-              height: 30,
-            ),
-            const SizedBox(width: 20),
-            const Text('New Diagnosis'),
-          ],
+    appBar: AppBar(
+      title: const Text('New Diagnosis'),
+      actions: [
+        Padding(
+        padding: const EdgeInsets.only(right: 16.0),
+        child: SvgPicture.asset(
+          AssetsConstants.breathingLogo,
+          // ignore: deprecated_member_use
+          color: Palette.blueColor,
+          height: 30,
         ),
-        backgroundColor: Palette.backgroundColor,
-      ),
+        ),
+      ],
+      backgroundColor: Palette.backgroundColor,
+    ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
