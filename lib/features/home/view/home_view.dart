@@ -33,7 +33,12 @@ class _HomeViewState extends State<HomeView> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         backgroundColor: Palette.blueColor,
-        child: const Icon(Icons.add, color: Palette.whiteColor,),
+        shape: const CircleBorder(),
+        child: const Icon(
+          Icons.add,
+          color: Palette.whiteColor,
+          size: 28,
+        ),
       ),
       bottomNavigationBar: CupertinoTabBar(
         currentIndex: _page,
