@@ -1,4 +1,5 @@
 import 'package:appwrite/appwrite.dart';
+import 'package:appwrite/models.dart';
 import 'package:breathing_analysis_app/constants/constants.dart';
 import 'package:breathing_analysis_app/core/core.dart';
 import 'package:breathing_analysis_app/models/user_model.dart';
@@ -11,6 +12,7 @@ final userAPIProvider = Provider((ref) {
 
 abstract class IUserAPI {
   FutureEitherVoid saveUserData(UserModel userModel);
+  Future<Document> getUserData(String uid);
 }
 
 class UserAPI implements IUserAPI {
@@ -33,5 +35,14 @@ class UserAPI implements IUserAPI {
     } catch (e, st) {
       return left(Failure(message: e.toString(), stackTrace: st));
     }
+  }
+  
+  @override
+  Future<Document> getUserData(String uid)  {
+    return _db.getDocument(
+      databaseId: AppwriteConstants.databaseId,
+      collectionId: AppwriteConstants.userCollectionId,
+      documentId: uid,
+    );
   }
 }
