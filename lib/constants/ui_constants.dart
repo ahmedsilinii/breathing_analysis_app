@@ -9,10 +9,16 @@ class UIConstants {
       title: SvgPicture.asset(
         AssetsConstants.breathingLogo,
         // ignore: deprecated_member_use
-        color: Pallete.blueColor,
+        color: Palette.blueColor,
         height: 30,
       ),
       centerTitle: true,
     );
   }
+
+  static List<Widget> bottomTabBarPages = [
+    const Center(child: Text('Home')),
+    const Center(child: Text('Search')),
+    const Center(child: Text('Profile')),
+  ];
 }
