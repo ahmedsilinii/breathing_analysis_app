@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:breathing_analysis_app/common/loading_page.dart';
 import 'package:breathing_analysis_app/constants/constants.dart';
 import 'package:breathing_analysis_app/features/auth/controller/auth_controller.dart';
@@ -5,6 +7,8 @@ import 'package:breathing_analysis_app/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:record/record.dart';
 
 class CreateDiagnosisScreen extends ConsumerStatefulWidget {
   static route() =>
@@ -17,6 +21,10 @@ class CreateDiagnosisScreen extends ConsumerStatefulWidget {
 }
 
 class _CreateDiagnosisScreenState extends ConsumerState<CreateDiagnosisScreen> {
+  bool isRecording = false;
+  final audioRecorder = AudioRecorder();
+  String? recordingPath;
+
   @override
   Widget build(BuildContext context) {
     final currentUser = ref.watch(currrentUserAccountProvider).value;
@@ -63,10 +71,34 @@ class _CreateDiagnosisScreenState extends ConsumerState<CreateDiagnosisScreen> {
                         ),
                         padding: const EdgeInsets.symmetric(vertical: 16.0),
                       ),
-                      onPressed: () {
-                        // TODO: Implement recording functionality
+                      onPressed: () async {
+                        if (isRecording) {
+                          String? filePath = await audioRecorder.stop();
+                          if (filePath != null) {
+                            setState(() {
+                              isRecording = false;
+                              recordingPath = filePath;
+                            });
+                          }
+                        } else {
+                          if (await audioRecorder.hasPermission()) {
+                            final Directory appDocumentsDir =
+                                await getApplicationCacheDirectory();
+                            final String filePath =
+                                '${appDocumentsDir.path}/breath_recording.wav';
+                            await audioRecorder.start(
+                              const RecordConfig(),
+                              path: filePath,
+                            );
+                            print('Recording started: $filePath');
+                            setState(() {
+                              isRecording = true;
+                              recordingPath = null;
+                            });
+                          }
+                        }
                       },
-                      icon: const Icon(Icons.mic),
+                      icon: Icon(isRecording ? Icons.stop : Icons.mic),
                       label: const Text('Record Breath'),
                     ),
                     const SizedBox(height: 30),
