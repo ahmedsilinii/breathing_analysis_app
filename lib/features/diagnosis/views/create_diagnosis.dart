@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:breathing_analysis_app/common/loading_page.dart';
 import 'package:breathing_analysis_app/constants/constants.dart';
+import 'package:breathing_analysis_app/core/utils.dart';
 import 'package:breathing_analysis_app/features/auth/controller/auth_controller.dart';
 import 'package:breathing_analysis_app/theme/palette.dart';
 import 'package:flutter/material.dart';
@@ -79,6 +80,8 @@ class _CreateDiagnosisScreenState extends ConsumerState<CreateDiagnosisScreen> {
                               isRecording = false;
                               recordingPath = filePath;
                             });
+                            // ignore: use_build_context_synchronously
+                            showSnackBar(context, 'Recording stopped.');
                           }
                         } else {
                           if (await audioRecorder.hasPermission()) {
@@ -95,6 +98,11 @@ class _CreateDiagnosisScreenState extends ConsumerState<CreateDiagnosisScreen> {
                               isRecording = true;
                               recordingPath = null;
                             });
+                            showSnackBar(
+                              // ignore: use_build_context_synchronously
+                              context,
+                              'Recording started. Tap again to stop.',
+                            );
                           }
                         }
                       },
