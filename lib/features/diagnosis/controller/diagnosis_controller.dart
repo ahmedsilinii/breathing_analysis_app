@@ -61,9 +61,9 @@ class DiagnosisController extends StateNotifier<DiagnosisState> {
       if (await audioRecorder.hasPermission()) {
         final Directory appDocumentsDir = await getApplicationCacheDirectory();
         //ken t7eb tsajel kol recording
-        //final String filePath = '${appDocumentsDir.path}/breath_recording_${DateTime.now().millisecondsSinceEpoch}.wav';
+        final String filePath = '${appDocumentsDir.path}/breath_recording_${DateTime.now().millisecondsSinceEpoch}.wav';
         //sinon override every recording
-        final String filePath = '${appDocumentsDir.path}/breath_recording.wav';
+        //final String filePath = '${appDocumentsDir.path}/breath_recording.wav';
         await audioRecorder.start(const RecordConfig(), path: filePath);
         state = state.copyWith(isRecording: true, recordingPath: null);
         showSnackBar('Recording started. Tap again to stop.');

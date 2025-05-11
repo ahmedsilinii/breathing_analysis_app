@@ -5,4 +5,8 @@ class AppwriteConstants {
 
   static const String userCollectionId = '6812524d002ee10cd667';
   static var diagnosisCollectionId = '682062700011e98de1a2';
+
+  static const String medicalReportsBuckedId = '6820d28f0023e13cd053';
+  static const String breathingRecordsBucketId = '6820d2a300233b5371d3';
+
 }
