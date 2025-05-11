@@ -4,4 +4,5 @@ class AppwriteConstants {
   static const String endPoint = 'http://10.0.2.2:80/v1';
 
   static const String userCollectionId = '6812524d002ee10cd667';
+  static var diagnosisCollectionId = '682062700011e98de1a2';
 }
