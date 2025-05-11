@@ -95,7 +95,7 @@ class DiagnosisController extends StateNotifier<DiagnosisState> {
   void diagnose(Function(String) showSnackBar) {
     if (state.recordingPath != null) {
       state = state.copyWith(isLoading: true);
-      final userAsync = _ref.read(currentUserDetailsProvider);
+      final userAsync = _ref.watch(currentUserDetailsProvider);
       final user = userAsync.value;
       if (user == null) {
         state = state.copyWith(isLoading: false);
