@@ -4,6 +4,7 @@ import 'package:breathing_analysis_app/common/loading_page.dart';
 import 'package:breathing_analysis_app/constants/constants.dart';
 import 'package:breathing_analysis_app/core/utils.dart';
 import 'package:breathing_analysis_app/features/auth/controller/auth_controller.dart';
+import 'package:breathing_analysis_app/features/diagnosis/widgets/diagnosis_button.dart';
 import 'package:breathing_analysis_app/theme/palette.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -72,17 +73,26 @@ class _CreateDiagnosisViewState extends ConsumerState<CreateDiagnosisView> {
       final file = picked.files.first;
       final filePath = file.path;
       if (filePath != null) {
-      setState(() {
-        pdfPath = filePath;
-      });
-      showSnackBar(context, 'File selected: ${file.name}');
+        setState(() {
+          pdfPath = filePath;
+        });
+        showSnackBar(context, 'File selected: ${file.name}');
       } else {
-      showSnackBar(context, 'Failed to get file path.');
+        showSnackBar(context, 'Failed to get file path.');
       }
     } else {
       showSnackBar(context, 'No file selected.');
     }
-    
+  }
+
+  void _onDiagnose() {
+    if (recordingPath != null) {
+      // Handle the diagnosis submission
+      // You can use the recordingPath and pdfPath as needed
+      showSnackBar(context, 'Diagnosis submitted.');
+    } else {
+      showSnackBar(context, 'Please record your breath first.');
+    }
   }
 
   @override
@@ -122,32 +132,16 @@ class _CreateDiagnosisViewState extends ConsumerState<CreateDiagnosisView> {
                       ),
                     ),
                     const SizedBox(height: 40),
-                    ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Palette.blueColor,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      ),
+                    DiagnosisButton(
                       onPressed: _onRecord,
-                      icon: Icon(isRecording ? Icons.stop : Icons.mic),
-                      label: const Text('Record Breath'),
+                      icon: isRecording ? Icons.stop : Icons.mic,
+                      label: 'Record Breath',
                     ),
                     const SizedBox(height: 30),
-                    ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Palette.blueColor,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      ),
+                    DiagnosisButton(
                       onPressed: _onUpload,
-                      icon: const Icon(Icons.attach_file),
-                      label: const Text('Attach Medical Report'),
+                      icon: Icons.attach_file,
+                      label: 'Attach Medical Report',
                     ),
                     const Spacer(),
                     ElevatedButton(
@@ -159,7 +153,7 @@ class _CreateDiagnosisViewState extends ConsumerState<CreateDiagnosisView> {
                         ),
                         padding: const EdgeInsets.symmetric(vertical: 16.0),
                       ),
-                      onPressed: _onUpload,
+                      onPressed: _onDiagnose,
                       child: const Text('Diagnose'),
                     ),
                   ],
