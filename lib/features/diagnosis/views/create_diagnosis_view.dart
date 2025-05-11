@@ -28,10 +28,7 @@ class _CreateDiagnosisViewState extends ConsumerState<CreateDiagnosisView> {
 
   Future<void> _onRecord() async {
     final diagnosisController = ref.read(diagnosisControllerProvider.notifier);
-    await diagnosisController.record(
-      (msg) => showSnackBar(context, msg),
-      context,
-    );
+    await diagnosisController.record((msg) => showSnackBar(context, msg));
   }
 
   Future<void> _onUpload() async {
@@ -47,7 +44,7 @@ class _CreateDiagnosisViewState extends ConsumerState<CreateDiagnosisView> {
   @override
   Widget build(BuildContext context) {
     final currentUser = ref.watch(currrentUserAccountProvider).value;
-    final isRecording =ref.watch(diagnosisControllerProvider).isRecording;
+    final isRecording = ref.watch(diagnosisControllerProvider).isRecording;
 
     return Scaffold(
       appBar: AppBar(

@@ -34,7 +34,7 @@ class DiagnosisController extends StateNotifier<DiagnosisState> {
     OpenFile.open(file.path!);
   }
 
-  Future<void> record(Function(String) showSnackBar, dynamic context) async {
+  Future<void> record(Function(String) showSnackBar) async {
     if (state.isRecording) {
       String? filePath = await audioRecorder.stop();
       if (filePath != null) {
@@ -79,6 +79,7 @@ class DiagnosisController extends StateNotifier<DiagnosisState> {
   void diagnose(Function(String) showSnackBar) {
     if (state.recordingPath != null) {
       showSnackBar('Diagnosis submitted.');
+
     } else {
       showSnackBar('Please record your breath first.');
     }
