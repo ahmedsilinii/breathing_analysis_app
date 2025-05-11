@@ -30,10 +30,7 @@ class _CreateDiagnosisViewState extends ConsumerState<CreateDiagnosisView> {
   String? recordingPath;
   String? pdfPath;
 
-  void openFile(PlatformFile file) {
-    OpenFile.open(file.path!);
-  }
-
+ 
   Future<void> _onRecord() async {
     if (isRecording) {
       String? filePath = await audioRecorder.stop();
