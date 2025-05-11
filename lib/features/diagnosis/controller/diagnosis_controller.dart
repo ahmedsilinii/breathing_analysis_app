@@ -107,6 +107,7 @@ class DiagnosisController extends StateNotifier<DiagnosisState> {
         id: '',
         uid: user.uid,
         audioRecording: state.recordingPath!,
+        medicalReport: state.pdfPath!,
         diagnosedAt: DateTime.now(),
         results: ['Waiting for results...'],
       );
