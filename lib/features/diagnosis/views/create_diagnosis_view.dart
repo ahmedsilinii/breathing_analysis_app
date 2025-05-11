@@ -12,17 +12,17 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 
-class CreateDiagnosisScreen extends ConsumerStatefulWidget {
+class CreateDiagnosisView extends ConsumerStatefulWidget {
   static route() =>
-      MaterialPageRoute(builder: (context) => const CreateDiagnosisScreen());
-  const CreateDiagnosisScreen({super.key});
+      MaterialPageRoute(builder: (context) => const CreateDiagnosisView());
+  const CreateDiagnosisView({super.key});
 
   @override
-  ConsumerState<CreateDiagnosisScreen> createState() =>
-      _CreateDiagnosisScreenState();
+  ConsumerState<CreateDiagnosisView> createState() =>
+      _CreateDiagnosisViewState();
 }
 
-class _CreateDiagnosisScreenState extends ConsumerState<CreateDiagnosisScreen> {
+class _CreateDiagnosisViewState extends ConsumerState<CreateDiagnosisView> {
   bool isRecording = false;
   final audioRecorder = AudioRecorder();
   String? recordingPath;

@@ -1,5 +1,5 @@
 import 'package:breathing_analysis_app/constants/constants.dart';
-import 'package:breathing_analysis_app/features/diagnosis/views/create_diagnosis.dart';
+import 'package:breathing_analysis_app/features/diagnosis/views/create_diagnosis_view.dart';
 import 'package:breathing_analysis_app/theme/palette.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +27,7 @@ class _HomeViewState extends State<HomeView> {
   }
 
   void onCreateDiagnosis() {
-    Navigator.push(context, CreateDiagnosisScreen.route());
+    Navigator.push(context, CreateDiagnosisView.route());
   }
 
   @override
