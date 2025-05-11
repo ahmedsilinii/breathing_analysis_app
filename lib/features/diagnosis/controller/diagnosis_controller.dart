@@ -93,6 +93,7 @@ class DiagnosisController extends StateNotifier<DiagnosisState> {
       final user = _ref.read(currentUserDetailsProvider).value!;
 
       DiagnosisModel diagnosis = DiagnosisModel(
+        id: '',
         uid: user.uid,
         audioRecording: state.recordingPath!,
         diagnosedAt: DateTime.now(),

@@ -1,4 +1,5 @@
 class DiagnosisModel {
+  final String id;
   final String? medicalReport;
   final String audioRecording;
   final String uid;
@@ -6,6 +7,7 @@ class DiagnosisModel {
   final List<String> results;
 
   DiagnosisModel({
+    required this.id,
     required this.uid,
     this.medicalReport,
     required this.audioRecording,
@@ -25,6 +27,7 @@ class DiagnosisModel {
 
   factory DiagnosisModel.fromJson(Map<String, dynamic> json) {
     return DiagnosisModel(
+      id: json['id'] as String,
       uid: json['uid'] as String,
       medicalReport: json['medicalReport'] as String?,
       audioRecording: json['audioRecording'] as String,
@@ -35,6 +38,7 @@ class DiagnosisModel {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'uid': uid,
       'medicalReport': medicalReport,
       'audioRecording': audioRecording,
@@ -44,6 +48,7 @@ class DiagnosisModel {
   }
 
   DiagnosisModel copyWith({
+    String? id,
     String? uid,
     String? medicalReport,
     String? audioRecording,
@@ -51,6 +56,7 @@ class DiagnosisModel {
     List<String>? results,
   }) {
     return DiagnosisModel(
+      id: id ?? this.id,
       uid: uid ?? this.uid,
       medicalReport: medicalReport ?? this.medicalReport,
       audioRecording: audioRecording ?? this.audioRecording,
@@ -61,8 +67,6 @@ class DiagnosisModel {
 
   @override
   String toString() {
-    return 'DiagnosisModel(medicalReport: $medicalReport, audioRecording: $audioRecording, uid: $uid, diagnosedAt: $diagnosedAt, results: $results)';
+    return 'DiagnosisModel(id: $id, medicalReport: $medicalReport, audioRecording: $audioRecording, uid: $uid, diagnosedAt: $diagnosedAt, results: $results)';
   }
-
-
 }

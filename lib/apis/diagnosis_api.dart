@@ -3,7 +3,12 @@ import 'package:appwrite/models.dart';
 import 'package:breathing_analysis_app/constants/appwrite_constants.dart';
 import 'package:breathing_analysis_app/core/core.dart';
 import 'package:breathing_analysis_app/models/diagnosis_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
+
+final diagnosisAPIProvider = Provider<IDiagnosisAPI>((ref) {
+  return DiagnosisAPI(db: ref.watch(appwriteDatabaseProvider));
+});
 
 abstract class IDiagnosisAPI {
   FutureEither<Document> saveDiagnosis(DiagnosisModel diagnosis);
@@ -19,7 +24,7 @@ class DiagnosisAPI implements IDiagnosisAPI {
       final Document document = await _db.createDocument(
         databaseId: AppwriteConstants.databaseId,
         collectionId: AppwriteConstants.diagnosisCollectionId,
-        documentId: diagnosis.uid,
+        documentId: ID.unique(),
         data: diagnosis.toMap(),
       );
       return right(document);
