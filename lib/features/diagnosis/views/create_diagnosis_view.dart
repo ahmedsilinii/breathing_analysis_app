@@ -1,4 +1,3 @@
-
 import 'package:breathing_analysis_app/common/loading_page.dart';
 import 'package:breathing_analysis_app/constants/constants.dart';
 import 'package:breathing_analysis_app/core/utils.dart';
@@ -10,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:record/record.dart';
 
 class CreateDiagnosisView extends ConsumerStatefulWidget {
   static route() =>
@@ -23,14 +21,17 @@ class CreateDiagnosisView extends ConsumerStatefulWidget {
 }
 
 class _CreateDiagnosisViewState extends ConsumerState<CreateDiagnosisView> {
-  bool isRecording = false;
-  final audioRecorder = AudioRecorder();
-  String? recordingPath;
-  String? pdfPath;
+  @override
+  void initState() {
+    super.initState();
+  }
 
   Future<void> _onRecord() async {
     final diagnosisController = ref.read(diagnosisControllerProvider.notifier);
-    await diagnosisController.record((msg) => showSnackBar(context, msg), context);
+    await diagnosisController.record(
+      (msg) => showSnackBar(context, msg),
+      context,
+    );
   }
 
   Future<void> _onUpload() async {
@@ -46,6 +47,7 @@ class _CreateDiagnosisViewState extends ConsumerState<CreateDiagnosisView> {
   @override
   Widget build(BuildContext context) {
     final currentUser = ref.watch(currrentUserAccountProvider).value;
+    final isRecording =ref.watch(diagnosisControllerProvider).isRecording;
 
     return Scaffold(
       appBar: AppBar(

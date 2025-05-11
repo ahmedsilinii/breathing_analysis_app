@@ -10,11 +10,7 @@ class DiagnosisState {
   final String? recordingPath;
   final String? pdfPath;
 
-  DiagnosisState({
-    this.isRecording = false,
-    this.recordingPath,
-    this.pdfPath,
-  });
+  DiagnosisState({this.isRecording = false, this.recordingPath, this.pdfPath});
 
   DiagnosisState copyWith({
     bool? isRecording,
@@ -32,7 +28,6 @@ class DiagnosisState {
 class DiagnosisController extends StateNotifier<DiagnosisState> {
   final AudioRecorder audioRecorder = AudioRecorder();
 
-  
   DiagnosisController() : super(DiagnosisState());
 
   void openFile(PlatformFile file) {
@@ -49,6 +44,9 @@ class DiagnosisController extends StateNotifier<DiagnosisState> {
     } else {
       if (await audioRecorder.hasPermission()) {
         final Directory appDocumentsDir = await getApplicationCacheDirectory();
+        //ken t7eb tsajel kol recording
+        //final String filePath = '${appDocumentsDir.path}/breath_recording_${DateTime.now().millisecondsSinceEpoch}.wav';
+        //sinon override every recording
         final String filePath = '${appDocumentsDir.path}/breath_recording.wav';
         await audioRecorder.start(const RecordConfig(), path: filePath);
         state = state.copyWith(isRecording: true, recordingPath: null);
@@ -69,6 +67,7 @@ class DiagnosisController extends StateNotifier<DiagnosisState> {
       if (filePath != null) {
         state = state.copyWith(pdfPath: filePath);
         showSnackBar('File selected: ${file.name}');
+        //openFile(file);
       } else {
         showSnackBar('Failed to get file path.');
       }
@@ -86,8 +85,7 @@ class DiagnosisController extends StateNotifier<DiagnosisState> {
   }
 }
 
-final diagnosisControllerProvider = StateNotifierProvider<DiagnosisController, DiagnosisState>(
-  (ref) => DiagnosisController(),
-);
-
-
+final diagnosisControllerProvider =
+    StateNotifierProvider<DiagnosisController, DiagnosisState>(
+      (ref) => DiagnosisController(),
+    );
