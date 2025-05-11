@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:breathing_analysis_app/features/auth/controller/auth_controller.dart';
+import 'package:breathing_analysis_app/models/diagnosis_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:open_file/open_file.dart';
 import 'package:record/record.dart';
@@ -35,8 +37,9 @@ class DiagnosisState {
 
 class DiagnosisController extends StateNotifier<DiagnosisState> {
   final AudioRecorder audioRecorder = AudioRecorder();
+  final Ref _ref;
 
-  DiagnosisController() : super(DiagnosisState());
+  DiagnosisController({required ref}) : _ref = ref, super(DiagnosisState());
 
   void openFile(PlatformFile file) {
     OpenFile.open(file.path!);
@@ -87,6 +90,15 @@ class DiagnosisController extends StateNotifier<DiagnosisState> {
   void diagnose(Function(String) showSnackBar) {
     if (state.recordingPath != null) {
       // state = state.copyWith(isLoading: true);
+      final user = _ref.read(currentUserDetailsProvider).value!;
+
+      DiagnosisModel diagnosis = DiagnosisModel(
+        uid: user.uid,
+        audioRecording: state.recordingPath!,
+        diagnosedAt: DateTime.now(),
+        results: ['Waiting for results...'],
+      );
+
       showSnackBar('Diagnosis submitted.');
     } else {
       showSnackBar('Please record your breath first.');
@@ -96,5 +108,5 @@ class DiagnosisController extends StateNotifier<DiagnosisState> {
 
 final diagnosisControllerProvider =
     StateNotifierProvider<DiagnosisController, DiagnosisState>(
-      (ref) => DiagnosisController(),
+      (ref) => DiagnosisController(ref: ref),
     );
