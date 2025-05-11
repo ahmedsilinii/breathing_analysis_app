@@ -10,6 +10,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 
@@ -28,6 +29,10 @@ class _CreateDiagnosisViewState extends ConsumerState<CreateDiagnosisView> {
   final audioRecorder = AudioRecorder();
   String? recordingPath;
   String? pdfPath;
+
+  void openFile(PlatformFile file) {
+    OpenFile.open(file.path!);
+  }
 
   Future<void> _onRecord() async {
     if (isRecording) {
@@ -76,6 +81,7 @@ class _CreateDiagnosisViewState extends ConsumerState<CreateDiagnosisView> {
         setState(() {
           pdfPath = filePath;
         });
+        // openFile(file);
         showSnackBar(context, 'File selected: ${file.name}');
       } else {
         showSnackBar(context, 'Failed to get file path.');
