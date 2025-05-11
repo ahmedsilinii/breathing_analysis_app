@@ -10,7 +10,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 
@@ -79,11 +78,14 @@ class _CreateDiagnosisViewState extends ConsumerState<CreateDiagnosisView> {
           pdfPath = filePath;
         });
         // openFile(file);
+        // ignore: use_build_context_synchronously
         showSnackBar(context, 'File selected: ${file.name}');
       } else {
+        // ignore: use_build_context_synchronously
         showSnackBar(context, 'Failed to get file path.');
       }
     } else {
+      // ignore: use_build_context_synchronously
       showSnackBar(context, 'No file selected.');
     }
   }
