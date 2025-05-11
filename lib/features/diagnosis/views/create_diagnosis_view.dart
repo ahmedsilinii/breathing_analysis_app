@@ -44,7 +44,7 @@ class _CreateDiagnosisViewState extends ConsumerState<CreateDiagnosisView> {
 
   @override
   Widget build(BuildContext context) {
-    final currentUser = ref.watch(currrentUserAccountProvider).value;
+    final currentUser = ref.watch(currentUserDetailsProvider).value;
     final isRecording = ref.watch(diagnosisControllerProvider).isRecording;
     final userAsync = ref.watch(currentUserDetailsProvider);
 
@@ -52,6 +52,7 @@ class _CreateDiagnosisViewState extends ConsumerState<CreateDiagnosisView> {
       return const Loader();
     }
     if (userAsync.hasError) {
+      print(userAsync.value);
       return ErrorPage(errorMessage: userAsync.error.toString());
     }
     final user = userAsync.value;
