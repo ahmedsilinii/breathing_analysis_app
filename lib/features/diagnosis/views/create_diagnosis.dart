@@ -58,6 +58,10 @@ class _CreateDiagnosisScreenState extends ConsumerState<CreateDiagnosisScreen> {
     }
   }
 
+  Future<void> _onUpload() async {
+    return;
+  }
+
   @override
   Widget build(BuildContext context) {
     final currentUser = ref.watch(currrentUserAccountProvider).value;
@@ -134,9 +138,7 @@ class _CreateDiagnosisScreenState extends ConsumerState<CreateDiagnosisScreen> {
                         ),
                         padding: const EdgeInsets.symmetric(vertical: 16.0),
                       ),
-                      onPressed: () {
-                        // TODO: Implement diagnosis functionality
-                      },
+                      onPressed: _onUpload,
                       child: const Text('Diagnose'),
                     ),
                   ],
