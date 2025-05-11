@@ -17,19 +17,18 @@ final authControllerProvider = StateNotifierProvider<AuthController, bool>((
   );
 });
 
-final currrentUserAccountProvider = FutureProvider((ref) async {
-  return ref.watch(authControllerProvider.notifier).currentUser();
+final userDetailsProvider = FutureProvider.family((ref, String uid) async {
+  return ref.watch(authControllerProvider.notifier).getUserData(uid);
 });
 
-final userDetailsProvider = FutureProvider.family((ref, String uid) async {
-  final authController = ref.watch(authControllerProvider.notifier);
-  return authController.getUserData(uid);
+final currrentUserAccountProvider = FutureProvider((ref) async {
+  return ref.watch(authControllerProvider.notifier).currentUser();
 });
 
 final currentUserDetailsProvider = FutureProvider((ref) async {
   final currentUserId =  ref.watch(currrentUserAccountProvider).value!.$id;
   final userDetails = ref.watch(userDetailsProvider(currentUserId));
-  return userDetails.value;
+  return userDetails.value; 
 });
 
 class AuthController extends StateNotifier<bool> {
@@ -99,6 +98,7 @@ class AuthController extends StateNotifier<bool> {
       });
     } catch (e) {
       state = false;
+      // ignore: use_build_context_synchronously
       showSnackBar(context, e.toString());
     }
   }

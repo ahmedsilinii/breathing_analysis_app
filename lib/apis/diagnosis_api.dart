@@ -6,7 +6,7 @@ import 'package:breathing_analysis_app/models/diagnosis_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 
-final diagnosisAPIProvider = Provider<IDiagnosisAPI>((ref) {
+final diagnosisAPIProvider = Provider((ref) {
   return DiagnosisAPI(db: ref.watch(appwriteDatabaseProvider));
 });
 

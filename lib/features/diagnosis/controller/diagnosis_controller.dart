@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:breathing_analysis_app/apis/diagnosis_api.dart';
 import 'package:breathing_analysis_app/features/auth/controller/auth_controller.dart';
 import 'package:breathing_analysis_app/models/diagnosis_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -36,10 +37,14 @@ class DiagnosisState {
 }
 
 class DiagnosisController extends StateNotifier<DiagnosisState> {
+  final DiagnosisAPI _diagnosisAPI;
   final AudioRecorder audioRecorder = AudioRecorder();
   final Ref _ref;
 
-  DiagnosisController({required ref}) : _ref = ref, super(DiagnosisState());
+  DiagnosisController({required ref, required DiagnosisAPI diagnosisAPI})
+    : _ref = ref,
+      _diagnosisAPI = diagnosisAPI,
+      super(DiagnosisState());
 
   void openFile(PlatformFile file) {
     OpenFile.open(file.path!);
@@ -89,8 +94,14 @@ class DiagnosisController extends StateNotifier<DiagnosisState> {
 
   void diagnose(Function(String) showSnackBar) {
     if (state.recordingPath != null) {
-      // state = state.copyWith(isLoading: true);
-      final user = _ref.read(currentUserDetailsProvider).value!;
+      state = state.copyWith(isLoading: true);
+      final userAsync = _ref.read(currentUserDetailsProvider);
+      final user = userAsync.value;
+      if (user == null) {
+        state = state.copyWith(isLoading: false);
+        showSnackBar('User not loaded. Please try again.');
+        return;
+      }
 
       DiagnosisModel diagnosis = DiagnosisModel(
         id: '',
@@ -100,7 +111,18 @@ class DiagnosisController extends StateNotifier<DiagnosisState> {
         results: ['Waiting for results...'],
       );
 
-      showSnackBar('Diagnosis submitted.');
+      _diagnosisAPI.saveDiagnosis(diagnosis).then((result) {
+        result.fold(
+          (l) {
+            state = state.copyWith(isLoading: false);
+            showSnackBar('Failed to submit diagnosis: ${l.message}');
+          },
+          (r) {
+            state = state.copyWith(isLoading: false);
+            showSnackBar('Diagnosis submitted successfully.');
+          },
+        );
+      });
     } else {
       showSnackBar('Please record your breath first.');
     }
@@ -109,5 +131,8 @@ class DiagnosisController extends StateNotifier<DiagnosisState> {
 
 final diagnosisControllerProvider =
     StateNotifierProvider<DiagnosisController, DiagnosisState>(
-      (ref) => DiagnosisController(ref: ref),
+      (ref) => DiagnosisController(
+        ref: ref,
+        diagnosisAPI: ref.watch(diagnosisAPIProvider),
+      ),
     );

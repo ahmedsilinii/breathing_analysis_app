@@ -43,7 +43,7 @@ class _CreateDiagnosisViewState extends ConsumerState<CreateDiagnosisView> {
 
   @override
   Widget build(BuildContext context) {
-    final currentUser = ref.watch(currrentUserAccountProvider).value;
+    final currentUser = ref.watch(currentUserDetailsProvider).value;
     final isRecording = ref.watch(diagnosisControllerProvider).isRecording;
     final isLoading = ref.watch(diagnosisControllerProvider).isLoading;
 
