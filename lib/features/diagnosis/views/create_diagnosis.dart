@@ -5,6 +5,7 @@ import 'package:breathing_analysis_app/constants/constants.dart';
 import 'package:breathing_analysis_app/core/utils.dart';
 import 'package:breathing_analysis_app/features/auth/controller/auth_controller.dart';
 import 'package:breathing_analysis_app/theme/palette.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -25,6 +26,7 @@ class _CreateDiagnosisScreenState extends ConsumerState<CreateDiagnosisScreen> {
   bool isRecording = false;
   final audioRecorder = AudioRecorder();
   String? recordingPath;
+  String? pdfPath;
 
   Future<void> _onRecord() async {
     if (isRecording) {
@@ -59,7 +61,28 @@ class _CreateDiagnosisScreenState extends ConsumerState<CreateDiagnosisScreen> {
   }
 
   Future<void> _onUpload() async {
-    return;
+    final result = FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf', 'doc', 'docx'],
+      allowMultiple: false,
+    );
+
+    final picked = await result;
+    if (picked != null && picked.files.isNotEmpty) {
+      final file = picked.files.first;
+      final filePath = file.path;
+      if (filePath != null) {
+      setState(() {
+        pdfPath = filePath;
+      });
+      showSnackBar(context, 'File selected: ${file.name}');
+      } else {
+      showSnackBar(context, 'Failed to get file path.');
+      }
+    } else {
+      showSnackBar(context, 'No file selected.');
+    }
+    
   }
 
   @override
@@ -122,9 +145,7 @@ class _CreateDiagnosisScreenState extends ConsumerState<CreateDiagnosisScreen> {
                         ),
                         padding: const EdgeInsets.symmetric(vertical: 16.0),
                       ),
-                      onPressed: () {
-                        // TODO: Implement file attachment functionality
-                      },
+                      onPressed: _onUpload,
                       icon: const Icon(Icons.attach_file),
                       label: const Text('Attach Medical Report'),
                     ),
