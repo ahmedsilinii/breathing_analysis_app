@@ -6,19 +6,27 @@ import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
 class DiagnosisState {
+  final bool isLoading;
   final bool isRecording;
   final String? recordingPath;
   final String? pdfPath;
 
-  DiagnosisState({this.isRecording = false, this.recordingPath, this.pdfPath});
+  DiagnosisState({
+    this.isLoading = false,
+    this.isRecording = false,
+    this.recordingPath,
+    this.pdfPath,
+  });
 
   DiagnosisState copyWith({
     bool? isRecording,
     String? recordingPath,
     String? pdfPath,
+    bool? isLoading,
   }) {
     return DiagnosisState(
       isRecording: isRecording ?? this.isRecording,
+      isLoading: isLoading ?? this.isLoading,
       recordingPath: recordingPath ?? this.recordingPath,
       pdfPath: pdfPath ?? this.pdfPath,
     );
@@ -78,8 +86,8 @@ class DiagnosisController extends StateNotifier<DiagnosisState> {
 
   void diagnose(Function(String) showSnackBar) {
     if (state.recordingPath != null) {
+      // state = state.copyWith(isLoading: true);
       showSnackBar('Diagnosis submitted.');
-
     } else {
       showSnackBar('Please record your breath first.');
     }

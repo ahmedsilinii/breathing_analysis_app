@@ -45,60 +45,63 @@ class _CreateDiagnosisViewState extends ConsumerState<CreateDiagnosisView> {
   Widget build(BuildContext context) {
     final currentUser = ref.watch(currrentUserAccountProvider).value;
     final isRecording = ref.watch(diagnosisControllerProvider).isRecording;
+    final isLoading = ref.watch(diagnosisControllerProvider).isLoading;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('New Diagnosis'),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: SvgPicture.asset(
-              AssetsConstants.breathingLogo,
-              // ignore: deprecated_member_use
-              color: Palette.blueColor,
-              height: 30,
-            ),
-          ),
-        ],
-        backgroundColor: Palette.backgroundColor,
-      ),
-      body:
-          currentUser == null
-              ? const Loader()
-              : Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const Text(
-                      'Record your breath to analyze potential respiratory issues.\nFor enhanced accuracy, you can also attach a medical report, if you have one available.',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: Palette.whiteColor,
-                      ),
-                    ),
-                    const SizedBox(height: 40),
-                    DiagnosisButton(
-                      onPressed: _onRecord,
-                      icon: isRecording ? Icons.stop : Icons.mic,
-                      label: 'Record Breath',
-                    ),
-                    const SizedBox(height: 30),
-                    DiagnosisButton(
-                      onPressed: _onUpload,
-                      icon: Icons.attach_file,
-                      label: 'Attach Medical Report',
-                    ),
-                    const Spacer(),
-                    DiagnosisButton(
-                      onPressed: _onDiagnose,
-                      icon: FontAwesomeIcons.stethoscope,
-                      label: 'Diagnose',
-                    ),
-                  ],
+    return isLoading
+        ? Loader()
+        : Scaffold(
+          appBar: AppBar(
+            title: const Text('New Diagnosis'),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 16.0),
+                child: SvgPicture.asset(
+                  AssetsConstants.breathingLogo,
+                  // ignore: deprecated_member_use
+                  color: Palette.blueColor,
+                  height: 30,
                 ),
               ),
-    );
+            ],
+            backgroundColor: Palette.backgroundColor,
+          ),
+          body:
+              currentUser == null
+                  ? const Loader()
+                  : Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const Text(
+                          'Record your breath to analyze potential respiratory issues.\nFor enhanced accuracy, you can also attach a medical report, if you have one available.',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Palette.whiteColor,
+                          ),
+                        ),
+                        const SizedBox(height: 40),
+                        DiagnosisButton(
+                          onPressed: _onRecord,
+                          icon: isRecording ? Icons.stop : Icons.mic,
+                          label: 'Record Breath',
+                        ),
+                        const SizedBox(height: 30),
+                        DiagnosisButton(
+                          onPressed: _onUpload,
+                          icon: Icons.attach_file,
+                          label: 'Attach Medical Report',
+                        ),
+                        const Spacer(),
+                        DiagnosisButton(
+                          onPressed: _onDiagnose,
+                          icon: FontAwesomeIcons.stethoscope,
+                          label: 'Diagnose',
+                        ),
+                      ],
+                    ),
+                  ),
+        );
   }
 }

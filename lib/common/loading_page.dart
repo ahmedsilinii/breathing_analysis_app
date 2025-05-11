@@ -1,3 +1,4 @@
+import 'package:breathing_analysis_app/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class Loader extends StatelessWidget {
@@ -6,7 +7,7 @@ class Loader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Center(
-      child: CircularProgressIndicator(),
+      child: CircularProgressIndicator(color: Palette.blueColor),
     );
   }
 }
@@ -16,8 +17,6 @@ class LoadingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Loader(),
-    );
+    return Scaffold(body: Loader());
   }
 }
