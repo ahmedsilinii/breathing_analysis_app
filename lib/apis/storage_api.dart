@@ -28,7 +28,7 @@ class StorageApi {
       } on AppwriteException catch (e) {
         // ignore: avoid_print
         print('Failed to upload file: ${e.message}');
-      }
+      } 
     }
     return fileIds;
   }
