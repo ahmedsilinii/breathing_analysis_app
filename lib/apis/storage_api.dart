@@ -5,39 +5,36 @@ import 'package:breathing_analysis_app/constants/appwrite_constants.dart';
 import 'package:breathing_analysis_app/core/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final storageAPIProvider = Provider<StorageApi>((ref) {
+final StorageAPIProvider = Provider<StorageAPI>((ref) {
   final storage = ref.watch(appWriteStorageProvider);
-  return StorageApi(storage: storage);
+  return StorageAPI(storage: storage);
 });
 
-class StorageApi {
+class StorageAPI {
   final Storage _storage;
 
-  StorageApi({required Storage storage}) : _storage = storage;
+  StorageAPI({required Storage storage}) : _storage = storage;
 
-  Future<List<String>> uploadFiles(List<File> files, String bucketId) async {
-    List<String> fileIds = [];
-    for (var file in files) {
-      try {
-        final response = await _storage.createFile(
-          bucketId: bucketId,
-          fileId: ID.unique(),
-          file: InputFile.fromPath(path: file.path),
-        );
-        fileIds.add(response.$id);
-      } on AppwriteException catch (e) {
-        // ignore: avoid_print
-        print('Failed to upload file: ${e.message}');
-      } 
+  Future<String> uploadFile(File file, String bucketId) async {
+    try {
+      final response = await _storage.createFile(
+        bucketId: bucketId,
+        fileId: ID.unique(),
+        file: InputFile.fromPath(path: file.path),
+      );
+      return AppwriteConstants.fileURL(response.$id, bucketId);
+    } on AppwriteException catch (e) {
+      // ignore: avoid_print
+      print('Failed to upload file: ${e.message}');
+      return '';
     }
-    return fileIds;
   }
 
-  Future<List<String>> uploadMedicalReports (List<File> files) {
-    return uploadFiles(files, AppwriteConstants.medicalReportsBuckedId);
+  Future<String> uploadMedicalReport(File file) {
+    return uploadFile(file, AppwriteConstants.medicalReportsBuckedId);
   }
 
-  Future<List<String>> uploadBreathingRecords (List<File> files) {
-    return uploadFiles(files, AppwriteConstants.breathingRecordsBucketId);
+  Future<String> uploadBreathingRecords(File file) {
+    return uploadFile(file, AppwriteConstants.breathingRecordsBucketId);
   }
 }

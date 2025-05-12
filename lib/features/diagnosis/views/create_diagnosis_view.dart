@@ -39,7 +39,7 @@ class _CreateDiagnosisViewState extends ConsumerState<CreateDiagnosisView> {
 
   void _onDiagnose() {
     final diagnosisController = ref.read(diagnosisControllerProvider.notifier);
-    diagnosisController.diagnose((msg) => showSnackBar(context, msg));
+    diagnosisController.diagnose(context: context);
   }
 
   @override
@@ -48,6 +48,8 @@ class _CreateDiagnosisViewState extends ConsumerState<CreateDiagnosisView> {
     final isRecording = ref.watch(diagnosisControllerProvider).isRecording;
     final userAsync = ref.watch(currentUserDetailsProvider);
 
+
+    //debugging
     if (userAsync.isLoading) {
       return const Loader();
     }
@@ -59,6 +61,7 @@ class _CreateDiagnosisViewState extends ConsumerState<CreateDiagnosisView> {
     if (user == null) {
       return ErrorPage(errorMessage: "User not found.");
     }
+
 
     return Scaffold(
       appBar: AppBar(

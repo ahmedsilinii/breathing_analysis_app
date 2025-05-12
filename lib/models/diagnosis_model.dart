@@ -1,7 +1,7 @@
 class DiagnosisModel {
   final String id;
-  final String? medicalReport;
-  final String audioRecording;
+  final String? medicalReportLink;
+  final String audioRecordingLink;
   final String uid;
   final DateTime diagnosedAt;
   final List<String> results;
@@ -9,16 +9,16 @@ class DiagnosisModel {
   DiagnosisModel({
     required this.id,
     required this.uid,
-    this.medicalReport,
-    required this.audioRecording,
+    this.medicalReportLink,
+    required this.audioRecordingLink,
     required this.diagnosedAt,
     required this.results,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'medicalReport': medicalReport,
-      'audioRecording': audioRecording,
+      'medicalReportLink': medicalReportLink,
+      'audioRecordingLink': audioRecordingLink,
       'uid': uid,
       'diagnosedAt': diagnosedAt.toIso8601String(),
       'results': results,
@@ -29,8 +29,8 @@ class DiagnosisModel {
     return DiagnosisModel(
       id: json['id'] as String,
       uid: json['uid'] as String,
-      medicalReport: json['medicalReport'] as String?,
-      audioRecording: json['audioRecording'] as String,
+      medicalReportLink: json['medicalReportLink'] as String?,
+      audioRecordingLink: json['audioRecordingLink'] as String,
       diagnosedAt: DateTime.parse(json['diagnosedAt'] as String),
       results: List<String>.from(json['results'] as List),
     );
@@ -40,8 +40,8 @@ class DiagnosisModel {
     return {
       'id': id,
       'uid': uid,
-      'medicalReport': medicalReport,
-      'audioRecording': audioRecording,
+      'medicalReportLink': medicalReportLink,
+      'audioRecordingLink': audioRecordingLink,
       'diagnosedAt': diagnosedAt.toIso8601String(),
       'results': results,
     };
@@ -50,16 +50,16 @@ class DiagnosisModel {
   DiagnosisModel copyWith({
     String? id,
     String? uid,
-    String? medicalReport,
-    String? audioRecording,
+    String? medicalReportLink,
+    String? audioRecordingLink,
     DateTime? diagnosedAt,
     List<String>? results,
   }) {
     return DiagnosisModel(
       id: id ?? this.id,
       uid: uid ?? this.uid,
-      medicalReport: medicalReport ?? this.medicalReport,
-      audioRecording: audioRecording ?? this.audioRecording,
+      medicalReportLink: medicalReportLink ?? this.medicalReportLink,
+      audioRecordingLink: audioRecordingLink ?? this.audioRecordingLink,
       diagnosedAt: diagnosedAt ?? this.diagnosedAt,
       results: results ?? this.results,
     );
@@ -67,6 +67,6 @@ class DiagnosisModel {
 
   @override
   String toString() {
-    return 'DiagnosisModel(id: $id, medicalReport: $medicalReport, audioRecording: $audioRecording, uid: $uid, diagnosedAt: $diagnosedAt, results: $results)';
+    return 'DiagnosisModel(id: $id, medicalReportLink: $medicalReportLink, audioRecordingLink: $audioRecordingLink, uid: $uid, diagnosedAt: $diagnosedAt, results: $results)';
   }
 }
