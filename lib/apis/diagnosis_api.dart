@@ -12,6 +12,7 @@ final diagnosisAPIProvider = Provider((ref) {
 
 abstract class IDiagnosisAPI {
   FutureEither<Document> saveDiagnosis(DiagnosisModel diagnosis);
+  Future<List<Document>> getDiagnosesByUser(String userId);
 }
 
 class DiagnosisAPI implements IDiagnosisAPI {
@@ -34,6 +35,22 @@ class DiagnosisAPI implements IDiagnosisAPI {
       );
     } catch (e, st) {
       return left(Failure(message: e.toString(), stackTrace: st));
+    }
+  }
+
+  @override
+  Future<List<Document>> getDiagnosesByUser(String userId) async {
+    try {
+      final response = await _db.listDocuments(
+        databaseId: AppwriteConstants.databaseId,
+        collectionId: AppwriteConstants.diagnosisCollectionId,
+        queries: [
+          Query.equal('uid', userId),
+        ],
+      );
+      return response.documents;
+    } catch (error) {
+      throw Exception('Failed to fetch diagnoses by user: $error');
     }
   }
 }
