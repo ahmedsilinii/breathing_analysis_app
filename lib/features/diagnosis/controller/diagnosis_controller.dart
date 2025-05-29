@@ -64,8 +64,6 @@ class DiagnosisController extends StateNotifier<DiagnosisState> {
     return diagnoses.map((doc) => DiagnosisModel.fromMap(doc.data)).toList();
   }
 
- 
-
   void openFile(PlatformFile file) {
     OpenFile.open(file.path!);
   }
@@ -187,3 +185,8 @@ final diagnosisControllerProvider =
         storageAPI: ref.watch(StorageAPIProvider),
       ),
     );
+
+final getUserDiagnosesProvider = FutureProvider((ref) {
+  final controller = ref.watch(diagnosisControllerProvider.notifier);
+  return controller.getUserDiagnoses();
+});
