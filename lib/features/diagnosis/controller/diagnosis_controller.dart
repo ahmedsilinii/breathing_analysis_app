@@ -54,6 +54,16 @@ class DiagnosisController extends StateNotifier<DiagnosisState> {
        _storageAPI = storageAPI,
        super(DiagnosisState());
 
+  Future<List<DiagnosisModel>> getUserDiagnoses() async {
+    final userAsync = _ref.watch(currentUserDetailsProvider);
+    final user = userAsync.value;
+    if (user == null) {
+      return [];
+    }
+    final diagnoses = await _diagnosisAPI.getDiagnosesByUser(user.uid);
+    return diagnoses.map((doc) => DiagnosisModel.fromMap(doc.data)).toList();
+  }
+
   void openFile(PlatformFile file) {
     OpenFile.open(file.path!);
   }

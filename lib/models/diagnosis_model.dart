@@ -15,6 +15,17 @@ class DiagnosisModel {
     required this.results,
   });
 
+  factory DiagnosisModel.fromMap(Map<String, dynamic> map) {
+    return DiagnosisModel(
+      id: map['id'] as String,
+      uid: map['uid'] as String,
+      medicalReportLink: map['medicalReportLink'] as String?,
+      audioRecordingLink: map['audioRecordingLink'] as String,
+      diagnosedAt: DateTime.parse(map['diagnosedAt'] as String),
+      results: List<String>.from(map['results'] as List),
+    );
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'medicalReportLink': medicalReportLink,
