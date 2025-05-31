@@ -4,6 +4,7 @@ import 'package:breathing_analysis_app/common/error_page.dart';
 import 'package:breathing_analysis_app/common/loading_page.dart';
 import 'package:breathing_analysis_app/constants/constants.dart';
 import 'package:breathing_analysis_app/features/auth/controller/auth_controller.dart';
+import 'package:breathing_analysis_app/features/chatbot/views/on_boarding.dart';
 import 'package:breathing_analysis_app/features/diagnosis/widgets/diagnosis_button.dart';
 import 'package:breathing_analysis_app/models/diagnosis_model.dart';
 import 'package:breathing_analysis_app/theme/palette.dart';
@@ -97,6 +98,7 @@ class DiagnosisDetails extends ConsumerWidget {
               child: ElevatedButton.icon(
                 onPressed: () {
                   // Navigate to AI Assistant page
+                  Navigator.push(context, Onboarding.route());
                 },
                 icon: const Icon(
                   Icons.chat_bubble_outline,
