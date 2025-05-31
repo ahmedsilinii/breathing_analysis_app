@@ -17,15 +17,19 @@ class DiagnosisModel {
 
   factory DiagnosisModel.fromMap(Map<String, dynamic> map) {
     return DiagnosisModel(
-      id: map['id'] as String,
-      uid: map['uid'] as String,
-      medicalReportLink: map['medicalReportLink'] as String?,
-      audioRecordingLink: map['audioRecordingLink'] as String,
-      diagnosedAt: DateTime.parse(map['diagnosedAt'] as String),
-      results: List<String>.from(map['results'] as List),
+      id: map['\$id'] ?? '',
+      uid: map['uid'] ?? '',
+      medicalReportLink: map['medicalReportLink'],
+      audioRecordingLink: map['audioRecordingLink'] ?? '',
+      diagnosedAt: DateTime.parse(
+        map['diagnosedAt'] ?? DateTime.now().toIso8601String(),
+      ),
+      results:
+          map['results'] != null
+              ? List<String>.from(map['results'])
+              : ['No results available'],
     );
   }
-
   Map<String, dynamic> toMap() {
     return {
       'medicalReportLink': medicalReportLink,
@@ -37,13 +41,22 @@ class DiagnosisModel {
   }
 
   factory DiagnosisModel.fromJson(Map<String, dynamic> json) {
+    final rawResults = json['results'];
+    final resultsList =
+        (rawResults is List)
+            ? rawResults
+                .where((e) => e != null)
+                .map((e) => e.toString())
+                .toList()
+            : <String>[];
+
     return DiagnosisModel(
       id: json['id'] as String,
       uid: json['uid'] as String,
       medicalReportLink: json['medicalReportLink'] as String?,
       audioRecordingLink: json['audioRecordingLink'] as String,
       diagnosedAt: DateTime.parse(json['diagnosedAt'] as String),
-      results: List<String>.from(json['results'] as List),
+      results: resultsList,
     );
   }
 
