@@ -1,5 +1,6 @@
 import 'package:breathing_analysis_app/common/loading_page.dart';
 import 'package:breathing_analysis_app/features/diagnosis/controller/diagnosis_controller.dart';
+import 'package:breathing_analysis_app/features/diagnosis/views/diagnosis_details.dart';
 import 'package:breathing_analysis_app/features/diagnosis/widgets/diagnosis_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,7 +19,19 @@ class DiagnosesList extends ConsumerWidget {
                 itemCount: diagnoses.length,
                 itemBuilder: (context, index) {
                   final diagnosis = diagnoses[index];
-                  return DiagnosisCard(diagnosis: diagnosis, onTap: () {});
+                  return DiagnosisCard(
+                    diagnosis: diagnosis,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (context) =>
+                                  DiagnosisDetails(diagnosis: diagnosis),
+                        ),
+                      );
+                    },
+                  );
                 },
               ),
           error: (err, stack) {
