@@ -60,8 +60,6 @@ class _ChatBotViewState extends State<ChatBotView> {
       appBar: AppBar(
         title: Row(
           children: [
-            Image.asset('assets/svgs/gpt-robot.png'),
-            SizedBox(width: 8),
             const Text('AI Assistant'),
           ],
         ),
