@@ -1,5 +1,5 @@
 import 'package:breathing_analysis_app/constants/constants.dart';
-import 'package:breathing_analysis_app/features/diagnosis/widgets/diagnoses_list.dart';
+import 'package:breathing_analysis_app/features/diagnosis/views/diagnoses_list.dart';
 import 'package:breathing_analysis_app/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
