@@ -1,6 +1,5 @@
 .env
-lib/features/chatbot/views/chatbot.dart
-lib/features/chatbot/views/on_boarding.dart
+lib/features/chatbot/
 
 # Miscellaneous
 *.class
