@@ -55,7 +55,6 @@ class DiagnosesList extends ConsumerWidget {
         ),
         Expanded(
           child: ListView.builder(
-          reverse: true,
           itemCount: diagnoses.length,
           itemBuilder: (context, index) {
             final diagnosis = diagnoses[index];

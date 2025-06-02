@@ -1,7 +1,7 @@
 import 'package:breathing_analysis_app/apis/auth_api.dart';
 import 'package:breathing_analysis_app/common/error_page.dart';
 import 'package:breathing_analysis_app/common/loading_page.dart';
-import 'package:breathing_analysis_app/features/auth/view/signup_view.dart';
+import 'package:breathing_analysis_app/features/auth/view/login_view.dart';
 import 'package:breathing_analysis_app/features/home/view/home_view.dart';
 import 'package:breathing_analysis_app/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +29,7 @@ class MyApp extends ConsumerWidget {
               if (user != null) {
                 return const HomeView();
               }
-              return const SignupView();
+              return const LoginView();
             },
             error:
                 (errorMessage, st) =>

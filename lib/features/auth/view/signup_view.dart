@@ -23,12 +23,14 @@ class _SignupViewState extends ConsumerState<SignupView> {
   final appbar = UIConstants.appBar();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
 
   @override
   void dispose() {
     super.dispose();
     emailController.dispose();
     passwordController.dispose();
+    confirmPasswordController.dispose();
   }
 
   void onSignUp() {
@@ -55,13 +57,21 @@ class _SignupViewState extends ConsumerState<SignupView> {
                   child: Column(
                     children: [
                       AuthField(
+                        obscureText: 'false',
                         controller: emailController,
                         hintText: 'Email ',
                       ),
                       const SizedBox(height: 25),
                       AuthField(
+                        obscureText: 'true',
                         controller: passwordController,
                         hintText: 'Password',
+                      ),
+                      const SizedBox(height: 25),
+                      AuthField(
+                        obscureText: 'true',
+                        controller: confirmPasswordController,
+                        hintText: 'Confirm Password',
                       ),
                       const SizedBox(height: 40),
                       Align(

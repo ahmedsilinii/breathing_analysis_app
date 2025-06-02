@@ -57,11 +57,13 @@ class _LoginViewState extends ConsumerState<LoginView> {
                   child: Column(
                     children: [
                       AuthField(
+                        obscureText: 'false',
                         controller: emailController,
                         hintText: 'Email ',
                       ),
                       const SizedBox(height: 25),
                       AuthField(
+                        obscureText: 'true',
                         controller: passwordController,
                         hintText: 'Password',
                       ),
